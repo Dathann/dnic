@@ -136,7 +136,7 @@ SINGAPORE		/sg/en_gb/
 THAILAND		/th/th_th/
 中国大陆 CHINA	/cn/zh_cn/
 台灣 TAIWAN		/tw/zh_tw/
-日本 JAPAN		/jp/ja_jp/
+日本 JAPAN 	8910123	/jp/ja_jp/
 대한민국 KOREA	/kr/ko_kr/
 
 EUROPE
