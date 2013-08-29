@@ -77,7 +77,7 @@ To Do:
                         //else if (a = 2)
                         //    prop = prop.toLowerCase();
                         //else if (a = 3)
-                        //    prop = prop.charAt(0).toUpperCase();
+                        //    prop = prop.charAt(0).toUpperCase() + prop.slice(1).toLowerCase();
                         for (var i = 0; i < $('[name*=' + prop + ']').length; i++) {
                             //console.log(a + ' ' + i)
 
