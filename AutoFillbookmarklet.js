@@ -79,7 +79,7 @@ To Do:
                         //    prop = prop.toLowerCase();
                         //else if (a = 3)
                         //    prop = prop.charAt(0).toUpperCase() + prop.slice(1).toLowerCase();
-                        for (var i = 0; i < $('[name*=' + prop + ']').length; i++) {
+                        for (var i = 0, a = $('[name*=' + prop + ']'); i < a.length; i++) {
                             //console.log(a + ' ' + i)
 
                             if ($('[name*=' + prop + ']').eq(i).attr('type') === 'radio' || $('[name*=' + prop + ']').eq(i).attr('type') === 'checkbox') {
