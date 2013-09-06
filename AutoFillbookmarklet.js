@@ -5,6 +5,7 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
 To Do: 
  - Eliminate the case-sensitive keys. Key name should be transformed to selector "as is", toUpperCase(), toLowerCase(), capitalize()
  - Detect the local and insert the corresponding postal-code.
+ - only fill-in visible fields.
 */
 
 (function () {
