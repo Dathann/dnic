@@ -1,98 +1,218 @@
 /*
-Version 0.0000001 pre-alpha
+Version 1 beta
 paste this into a bookmark: javascript: var version = 1, script = document.createElement('script'); script.type = 'text/javascript'; script.async = true; script.charset = 'UTF-8'; script.setAttribute('src', 'https://raw.github.com/Dathann/dnic/master/AutoFillbookmarklet.js' + '#' + Math.random()); document.documentElement.appendChild(script); script.onload = script.onreadystatechange = function () { var rs = script.readyState; if (!rs || rs === 'loaded' || rs === 'complete') { script.onload = script.onreadystatechange = null; if (version !== formFillBookmarklet.version) { alert('This bookmarklet is out of date!'); } } };
-
-To Do: 
- - Eliminate the case-sensitive keys. Key name should be transformed to selector "as is", toUpperCase(), toLowerCase(), capitalize()
- - Detect the local and insert the corresponding postal-code.
- - only fill-in visible fields.
 */
-
 (function () {
     if (typeof formFillBookmarklet !== 'undefined') {
         return;
     }
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
     formFillBookmarklet = {
         version: 1,
         values: {
-            Address1: '1 Bowerman Dr',
             address1: '1 Bowerman Dr',
-            Address2: '',
-            address2: '',
-            CC: '4163835624550976',
             cc: '4163835624550976',
-            CCard: '4163835624550976',
             ccard: '4163835624550976',
-            City: 'Beaverton',
             city: 'Beaverton',
-            Credit: '4163835624550976',
             credit: '4163835624550976',
             creditCardNumber: '4163835624550976',
             creditCardType: 'Visa',
-            Email: 'Tiger.Woods@Nike.com',
             email: 'Tiger.Woods@Nike.com',
-            Month: '3',
             month: '3',
-            Year: '2020',
             year: '2020',
             dobDay: '2',
             dobYear: '1969',
-            Fax: '(503) 671-5555',
             fax: '(503) 671-5555',
-            First: 'Tiger',
             first: 'Tiger',
             gender: 'male',
-            Gift: 'Go get em Tiger!',
             gift: 'Go get em Tiger!',
-            Last: 'Woods',
             last: 'Woods',
             name: 'Tiger',
-            Name: 'Tiger',
             fName: 'Tiger',
-            fname: 'Tiger',
             lName: 'Woods',
-            lname: 'Woods',
             pass: 'Woods123',
-            Pass: 'Woods123',
             verify: 'Woods123',
-            Verify: 'Woods123',
-            Phone: '(503) 671-6453',
             phone: '(503) 671-6453',
-            Post: '97005',
             post: '97005',
-            Zip: '97005',
             zip: '97005',
-            State: 'OR',
             state: 'OR',
-            Type: 'Visa',
             type: 'Visa'
         },
         init: function () {
             if (typeof $ !== 'undefined') {
                 for (prop in this.values) {
                     prop = prop.toString();
-                    for (var a = 0; a < 4; a++) {
-                        //case sensitive so try, as is, lower, upper, capital
-                        //if (a = 1)
-                        //    prop = prop.toUpperCase();
-                        //else if (a = 2)
-                        //    prop = prop.toLowerCase();
-                        //else if (a = 3)
-                        //    prop = prop.charAt(0).toUpperCase() + prop.slice(1).toLowerCase();
-                        for (var i = 0, a = $('[name*=' + prop + ']'); i < a.length; i++) {
-                            //console.log(a + ' ' + i)
+                    for (var i = 0, a = $('[name*=' + prop + ']') ; i < a.length; i++) {
+                        if ($('[name*=' + prop + ']').eq(0).attr('type') === 'radio' || $('[name*=' + prop + ']').eq(0).attr('type') === 'checkbox') {
+                            $('[name*=' + prop + '][value=' + this.values[prop] + ']:visible').prop('checked', true);
+                        } else if (prop.match('zip') || prop.match('post')) {
+                            //set zip code
+                            //get cookie locale.
 
-                            if ($('[name*=' + prop + ']').eq(i).attr('type') === 'radio' || $('[name*=' + prop + ']').eq(i).attr('type') === 'checkbox') {
-                                $('[name*=' + prop + ']').eq(i).prop('checked', true);
+                            var locale = navigator.language.substring(3) || navigator.userLanguage.substring(3) || "US"; //weak fallback if there's no cookie or language code in the url 
+                            var languageCode = new RegExp(/\/US\/|\/DN\/|\/XF\/|\/AR\/|\/AU\/|\/BE\/|\/BR\/|\/CA\/|\/CN\/|\/CZ\/|\/DK\/|\/DE\/|\/ES\/|\/FI\/|\/FR\/|\/GR\/|\/HK\/|\/HU\/|\/IN\/|\/ID\/|\/IE\/|\/IL\/|\/IT\/|\/JP\/|\/KR\/|\/XL\/|\/LU\/|\/MY\/|\/XM\/|\/NL\/|\/NZ\/|\/NO\/|\/PH\/|\/PL\/|\/PT\/|\/RU\/|\/SG\/|\/SI\/|\/SE\/|\/CH\/|\/TW\/|\/TH\/|\/TR\/|\/GB\/|\/US\/|\/AT\//ig)
+                            if (getCookie('CONSUMERCHOICE') !== null) {
+                                locale = getCookie('CONSUMERCHOICE').substring(0, 2)
                             } else {
-                                $('[name*=' + prop + ']').eq(i).val(this.values[prop])
+                                locale = location.href.match(languageCode) ? location.href.match(languageCode) : locale
                             }
+
+                            locale = locale.toUpperCase();
+
+                            switch (locale) {
+                                case "XF": //AFRICA         /XF/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("11511")
+                                    break;
+                                case "AR": //ARGENTINA      /AR/ES_AR/
+                                    $('[name*=' + prop + ']:visible').val("E3100")
+                                    break;
+                                case "AU": //AUSTRALIA      /AU/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("4505")
+                                    break;
+                                case "BE": //BELGIUM        /BE/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("1049")
+                                    break;
+                                case "BR": //BRASIL         /BR/PT_BR/
+                                    $('[name*=' + prop + ']:visible').val("96445-000")
+                                    break;
+                                case "CA": //CANADA         /CA/EN_CA/
+                                    $('[name*=' + prop + ']:visible').val("V9E 2B1")
+                                    break;
+                                case "CN": //CHINA          /CN/ZH_CN/
+                                    $('[name*=' + prop + ']:visible').val("564705")
+                                    break;
+                                case "CZ": //CZECH REPUBLIC /CZ/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("698 99")
+                                    break;
+                                case "DK": //DENMARK        /DK/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("DK-9000")
+                                    break;
+                                case "DE": //DEUTSCHLAND    /DE/DE_DE/
+                                    $('[name*=' + prop + ']:visible').val("01662")
+                                    break;
+                                case "ES": //ESPAÑA         /ES/ES_ES/
+                                    $('[name*=' + prop + ']:visible').val("28008")
+                                    break;
+                                case "FI": //FINLAND        /FI/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("FI-00630")
+                                    break;
+                                case "FR": //FRANCE         /FR/FR_FR/
+                                    $('[name*=' + prop + ']:visible').val("18000")
+                                    break;
+                                case "GR": //GREECE         /GR/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("16674")
+                                    break;
+                                case "HK": //HONG KONG      /HK/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("118003")
+                                    break;
+                                case "HU": //HUNGARY        /HU/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("1000")
+                                    break;
+                                case "IN": //INDIA          /IN/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("141003")
+                                    break;
+                                case "ID": //INDONESIA      /ID/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("98783")
+                                    break;
+                                case "IE": //IRELAND        /IE/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("KHG RT76")
+                                    break;
+                                case "IL": //ISRAEL         /IL/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("83816")
+                                    break;
+                                case "IT": //ITALIA         /IT/IT_IT/
+                                    $('[name*=' + prop + ']:visible').val("20010")
+                                    break;
+                                case "JP": //JAPAN          /JP/JA_JP/
+                                    $('[name*=' + prop + ']:visible').val("8910123")
+                                    break;
+                                case "KR": //KOREA          /KR/KO_KR/
+                                    $('[name*=' + prop + ']:visible').val("477-811")
+                                    break;
+                                case "XL": //LATIN AMERICA  /XL/ES_LA/
+                                    $('[name*=' + prop + ']:visible').val("10200")
+                                    break;
+                                case "LU": //LUXEMBOURG     /LU/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("L-3311")
+                                    break;
+                                case "MY": //MALAYSIA       /MY/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("02000")
+                                    break;
+                                case "XM": //MIDDLE EAST    /XM/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("")
+                                    break;
+                                case "NL": //NETHERLANDS    /NL/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("2597 GV")
+                                    break;
+                                case "NZ": //NEW ZEALAND    /NZ/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("7825")
+                                    break;
+                                case "NO": //NORWAY         /NO/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("3790")
+                                    break;
+                                case "PH": //PHILIPPINES    /PH/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("3601")
+                                    break;
+                                case "PL": //POLAND         /PL/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("62-262")
+                                    break;
+                                case "PT": //PORTUGAL       /PT/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("03740")
+                                    break;
+                                case "RU": //RUSSIA         /RU/RU_RU/
+                                    $('[name*=' + prop + ']:visible').val("627356")
+                                    break;
+                                case "SG": //SINGAPORE      /SG/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("289783")
+                                    break;
+                                case "SI": //SLOVENIA       /SI/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("1127")
+                                    break;
+                                case "SE": //SWEDEN         /SE/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("113 49")
+                                    break;
+                                case "CH": //SWITZERLAND    /CH/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("2944")
+                                    break;
+                                case "TW": //TAIWAN         /TW/ZH_TW/
+                                    $('[name*=' + prop + ']:visible').val("893")
+                                    break;
+                                case "TH": //THAILAND       /TH/TH_TH/
+                                    $('[name*=' + prop + ']:visible').val("94170")
+                                    break;
+                                case "TR": //TURKEY         /TR/TR_TR/
+                                    $('[name*=' + prop + ']:visible').val("41600")
+                                    break;
+                                case "GB": //UNITED KINGDOM /GB/EN_GB/
+                                    $('[name*=' + prop + ']:visible').val("BX2 1LB")
+                                    break;
+                                case "US": //UNITED STATES  /US/EN_US/
+                                    $('[name*=' + prop + ']:visible').val("90210")
+                                    break;
+                                case "AT": //ÖSTERREICH     /AT/DE_DE/
+                                    $('[name*=' + prop + ']:visible').val("5300")
+                                    break;
+                                default:
+                                    $('[name*=' + prop + ']:visible').val(this.values[prop])
+                            }
+                        } else {
+                            $('[name*=' + prop + ']:visible').val(this.values[prop])
                         }
                     }
                 }
             }
         }
     };
+
     formFillBookmarklet.init();
 
     if (typeof window.jQuery === 'undefined') {
@@ -113,60 +233,3 @@ To Do:
     }
 })()
 
-/*
-AFRICA			/xf/en_gb/
-
-AMERICAS
-
-UNITED STATES	90210 /us/en_us/
-LATIN AMERICA	/xl/es_la/
-ARGENTINA		/ar/es_ar/
-BRASIL			/br/pt_br/
-CANADA			/ca/en_ca/
-
-ASIA
-
-AUSTRALIA		/au/en_gb/
-HONG KONG		/hk/en_gb/
-INDIA			/in/en_gb/
-INDONESIA		/id/en_gb/
-MALAYSIA		/my/en_gb/
-NEW ZEALAND		/nz/en_gb/
-PHILIPPINES		/ph/en_gb/
-SINGAPORE		/sg/en_gb/
-THAILAND		/th/th_th/
-中国大陆 CHINA	/cn/zh_cn/
-台灣 TAIWAN		/tw/zh_tw/
-日本 JAPAN 	8910123	/jp/ja_jp/
-대한민국 KOREA	/kr/ko_kr/
-
-EUROPE
-UNITED KINGDOM 	BX2 1LB /gb/en_gb/
-BELGIUM 		1049 /be/en_gb/
-CZECH REPUBLIC	698 99 /cz/en_gb/
-DENMARK			DK-9000 /dk/en_gb/
-DEUTSCHLAND		01662 /de/de_de/
-ESPAÑA			28008 /es/es_es/
-FINLAND			FI-00630 /fi/en_gb/
-FRANCE			18000 /fr/fr_fr/
-GREECE			16674 ? /gr/en_gb/
-HUNGARY			1000 /hu/en_gb/
-IRELAND			KHG RT76 /ie/en_gb/
-ISRAEL			/il/en_gb/
-ITALIA			00120 /it/it_it/
-LUXEMBOURG		L-3311 /lu/en_gb/
-NETHERLANDS		2597 GV /nl/en_gb/
-NORWAY			/no/en_gb/
-ÖSTERREICH		5300 /at/de_de/
-POLAND			62-262 /pl/en_gb/
-PORTUGAL		03740 ? /pt/en_gb/
-РОССИЯ RUSSIA	/ru/ru_ru/
-SLOVENIA		1127 /si/en_gb/
-SWEDEN			113 49 /se/en_gb/
-SWITZERLAND		/ch/en_gb/
-TURKEY			/tr/tr_tr/
-
-MIDDLE EAST		/xm/en_gb/
-
-
-*/
