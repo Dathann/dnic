@@ -50,6 +50,7 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
                     zip: '97005',
                     state: 'OR',
                     singleState: 'JP-02', //JP
+                    stateSelector: 'JP-02', //JP
                     type: 'Visa'
                 },
                 init: function () {
