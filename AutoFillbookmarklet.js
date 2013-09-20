@@ -27,6 +27,7 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
                     credit: '4163835624550976',
                     cardNumber: '4163835624550976',
                     cardType: 'Visa',
+                    cv: '687',
                     type: 'Visa',
                     email: 'Tiger.Woods@Nike.com',
                     month: '3',
@@ -267,7 +268,8 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
             }
 
             $("head style").eq(0).append(".ffbtooltip {font-size: 15px; font-weight: bold; color: #000;} .ffbtooltip:before {content: '!'; position: absolute; top: -2px; border: 1px dashed red; background: coral; border-radius: 30px; width: 18px; height: 18px; overflow: hidden; font-weight: bold; color: white; line-height: 20px; text-align: center; left: -23px; font-size: 12px;}")
-            $("iframe").css({ border: "1px dashed red" }).before("<a href='javascript: var version = 1, script = document.createElement('script'); script.type = 'text/javascript'; script.async = true; script.charset = 'UTF-8'; script.setAttribute('src', 'https://raw.github.com/Dathann/dnic/master/AutoFillbookmarklet.js' + '#' + Math.random()); document.documentElement.appendChild(script); script.onload = script.onreadystatechange = function () { var rs = script.readyState; if (!rs || rs === 'loaded' || rs === 'complete') { script.onload = script.onreadystatechange = null; if (version !== formFillBookmarklet.version) { alert('This bookmarklet is out of date!'); } } };' class='ffbtooltip' title='The bookmarklet cannot access the iframes'>Paste this into the iframe</a>")
+            var bookmarklet = "javascript: var version = 1, script = document.createElement('script'); script.type = 'text/javascript'; script.async = true; script.charset = 'UTF-8'; script.setAttribute('src', 'https://raw.github.com/Dathann/dnic/master/AutoFillbookmarklet.js' + '#' + Math.random()); document.documentElement.appendChild(script); script.onload = script.onreadystatechange = function () { var rs = script.readyState; if (!rs || rs === 'loaded' || rs === 'complete') { script.onload = script.onreadystatechange = null; if (version !== formFillBookmarklet.version) { alert('This bookmarklet is out of date!'); } } };"
+            $("iframe").css({ border: "1px dashed red" }).before("<a href=\"" + bookmarklet + "\">Paste this into an iframe</a>")
 
 })()
 
