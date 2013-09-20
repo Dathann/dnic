@@ -21,6 +21,7 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
                 values: { 
                     address1: '1 Bowerman Dr',
                     address2: 'Suite 2',
+                    address3: 'This field required', //JP
                     cc: '4163835624550976',
                     ccard: '4163835624550976',
                     city: 'Beaverton',
@@ -48,9 +49,8 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
                     post: '97005',
                     zip: '97005',
                     state: 'OR',
-                    type: 'Visa',
-                    ckbx: 'c',
-                    radio: 3
+                    singleState: 'JP-02', //JP
+                    type: 'Visa'
                 },
                 init: function () {
                     if (typeof $ !== 'undefined') {
