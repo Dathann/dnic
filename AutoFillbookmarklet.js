@@ -21,7 +21,7 @@ paste this into a bookmark: javascript: var version = 1, script = document.creat
                 values: { 
                     address1: '1 Bowerman Dr',
                     address2: 'Suite 2',
-                    address3: 'This field required', //JP
+                    address3: 'Niketown', //JP
                     cc: '4163835624550976',
                     ccard: '4163835624550976',
                     city: 'Beaverton',
