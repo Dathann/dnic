@@ -1,6 +1,6 @@
 /*
 Version 1
-paste this into a bookmark: javascript: var version = 1, script = document.createElement('script'); script.type = 'text/javascript'; script.async = true; script.charset = 'UTF-8'; script.setAttribute('src', 'https://raw.github.com/Dathann/dnic/master/AutoFillbookmarklet.js' + '#' + Math.random()); document.documentElement.appendChild(script); script.onload = script.onreadystatechange = function () { var rs = script.readyState; if (!rs || rs === 'loaded' || rs === 'complete') { script.onload = script.onreadystatechange = null; if (version !== formFillBookmarklet.version) { alert('This bookmarklet is out of date!'); } } };
+paste this into a bookmark: javascript: var catchFail = setTimeout(function () { throw Error("lame... auto-fill bookmarklet failed to load."); }, 3000); var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true; script.charset = 'UTF-8'; script.setAttribute('src', 'https://raw.github.com/Dathann/dnic/master/AutoFillbookmarklet.js#' + new Date().getTime()); document.body.appendChild(script); script.onload = script.onreadystatechange = function () { var rs = script.readyState; if (!rs || rs === 'loaded' || rs === 'complete') { clearTimeout(catchFail); script.onload = script.onreadystatechange = null; } };
 */
 (function () {
     if (typeof formFillBookmarklet !== 'undefined') {
