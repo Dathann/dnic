@@ -262,7 +262,6 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
 
                 if (typeof this[locale] !== "undefined") {
                     this.doFormFill(this[locale]);
-                    console.log('cool')
                 }
             }
         }
