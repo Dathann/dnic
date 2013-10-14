@@ -85,7 +85,7 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
 
                 if ($('[name*=' + prop + '][type=radio]').length || $('[name*=' + prop + '][type=checkbox]').length) {
                     doCases(prop, function (prop) {
-                        for (var b = 0, a = $('[name*=' + prop + ']') ; b < a.length; b++) {
+                        for (var a = $('[name*=' + prop + ']'), b = a.length ; b > 0; b--) {
                             $('[name*=' + prop + '][value=' + formFillBookmarklet.values[prop] + ']:visible').prop('checked', true)
                         }
                     });
