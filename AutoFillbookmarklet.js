@@ -59,7 +59,8 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
         },
         US: {},
         doFormFill: function (vals) {
-            $("[name]").css({ 'outline': '1px solid red' });
+            $("[name]").css({ 'outline': '1px solid blue' });
+            $("[name]").trigger('click focus change', function (){console.log('ok')})
             for (var i = 0, a = Object.keys(vals) ; i < a.length; i++) {
                 prop = Object.keys(vals)[i].toString();
 
