@@ -60,9 +60,10 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
         US: {},
         doFormFill: function (vals) {
             $("[name]").css({ 'outline': '1px solid yellow' });
-            $("[name]").trigger('click', function (){console.log('click')});
-            $("[name]").trigger('focus', function (){console.log('focus')});
-            $("[name]").trigger('change', function (){console.log('change')});
+            var tmp = $("[name]").not("button, [type=button], [type=submit]");
+            tmp.trigger('click', function (){console.log('click')});
+            tmp.trigger('focus', function (){console.log('focus')});
+            tmp.trigger('change', function (){console.log('change')});
             for (var i = 0, a = Object.keys(vals) ; i < a.length; i++) {
                 prop = Object.keys(vals)[i].toString();
 
