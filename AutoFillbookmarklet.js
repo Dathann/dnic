@@ -243,8 +243,6 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
             }
             //bug fix, state needs clicking
             var selectState = $("select[name*=state]:visible");
-            selectState.triggerHandler('click', function (){console.log('click')});
-            selectState.triggerHandler('focus', function (){console.log('focus')});
             selectState.triggerHandler('change', function (){console.log('change')});
         },
         getLocale: function () {
