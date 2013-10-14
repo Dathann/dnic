@@ -85,8 +85,8 @@ var formFillBookmarklet = {
 
             if ($('[name*=' + prop + '][type=radio]').length || $('[name*=' + prop + '][type=checkbox]').length) {
                 doCases(prop, function (prop) {
-                    for (var a = $('[name*=' + prop + ']'), b = a.length ; b > 0; b--) {
-                        $('[name*=' + prop + '][value=' + formFillBookmarklet.values[prop] + ']:visible').prop('checked', true)
+                    for (var b = 0, a = $('[name*=' + prop + ']') ; b < a.length; b++) {
+                        a.filter('[value=' + formFillBookmarklet.values[prop] + ']').prop('checked', true);
                     }
                 });
             }
