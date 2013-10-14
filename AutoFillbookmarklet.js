@@ -59,11 +59,7 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
         },
         US: {},
         doFormFill: function (vals) {
-            $("[name]").css({ 'outline': '1px solid coral' });
-            var tmp = $("select:visible");
-            tmp.trigger('click', function (){console.log('click')});
-            tmp.trigger('focus', function (){console.log('focus')});
-            tmp.trigger('change', function (){console.log('change')});
+
             for (var i = 0, a = Object.keys(vals) ; i < a.length; i++) {
                 prop = Object.keys(vals)[i].toString();
 
@@ -245,6 +241,11 @@ paste this into a bookmark: javascript: var catchFail = setTimeout(function () {
                     });
                 }
             }
+            //bug fix, state needs clicking
+            var selectState = $("select[name*=state]:visible");
+            selectState.triggerHandler('click', function (){console.log('click')});
+            selectState.triggerHandler('focus', function (){console.log('focus')});
+            selectState.triggerHandler('change', function (){console.log('change')});
         },
         getLocale: function () {
             var locale = navigator.language.substring(3) || navigator.userLanguage.substring(3) || "US"; //weak fallback if there's no cookie or language code in the url 
